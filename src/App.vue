@@ -1,4 +1,8 @@
-<template></template>
+<template>
+  <div class="app">
+    APP
+  </div>
+</template>
 
 <script setup>
 </script>

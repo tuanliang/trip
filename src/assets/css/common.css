@@ -5,3 +5,14 @@
 body {
   font-size: 14px;
 }
+
+.top-page {
+  height: 100vh;
+  position: relative;
+  z-index: 9;
+  background-color: #fff;
+
+  overflow-y: auto;
+  /*这样相当于在div里滚动，没有这个时页面滚动。比如页面100，div130，页面不动，div上下动 */
+
+}

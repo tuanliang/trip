@@ -46,6 +46,10 @@
         </div>
       </template>
     </div>
+
+    <div class="search-btn" @click="btnClick">
+      <div class="btn">开始搜索</div>
+    </div>
   </div>
 </template>
 
@@ -93,7 +97,17 @@ const onConfirm = (value) => {
 
 const homeStore = useHomeStore()
 const { hotSuggest } = storeToRefs(homeStore)
-console.log(11, hotSuggest)
+
+const btnClick = () => {
+  router.push({
+    path: "/search",
+    query: {
+      startDate: startDate.value,
+      endDate: endDate.value,
+      currentCity: currentCity.value.cityName
+    }
+  })
+}
 </script>
 
 <style lang="less" scoped>
@@ -178,7 +192,7 @@ console.log(11, hotSuggest)
 .hot-suggest {
   display: flex;
   padding: 0 18px;
-  height: 44px;
+  height: auto;
   flex-wrap: wrap;
   align-items: center;
 
@@ -187,6 +201,26 @@ console.log(11, hotSuggest)
     margin: 4px;
     padding: 2px 8px;
     border-radius: 4px;
+  }
+}
+
+.search-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+  margin-top: 5px;
+
+  .btn {
+    width: 342px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    color: #fff;
+
+    font-size: 16px;
+    background-color: var(--primary-color);
+    border-radius: 12px;
   }
 }
 </style>

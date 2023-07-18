@@ -10,8 +10,12 @@
 </template>
 
 <script setup>
+import useHomeStore from '@/store/modules/home';
 import HomeNavBar from './cpns/home-nav-bar.vue'
 import HomeSearchBox from './cpns/home-search-box.vue'
+
+const homeStore = useHomeStore()
+homeStore.fetchHomeSuggest()
 </script>
 
 <style lang="less" scoped>

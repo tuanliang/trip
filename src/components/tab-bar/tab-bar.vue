@@ -1,6 +1,6 @@
 <template>
   <div class="tab-bar">
-    <van-tabbar v-model="currentIndex" active-color="#ff9854">
+    <van-tabbar v-model="currentIndex" active-color="#ff9854" route>
       <template v-for="(item, index) in tabbarData" :key="index">
         <van-tabbar-item icon="home-o" :to="item.path">
           <span>{{ item.text }}</span>
@@ -16,11 +16,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { getAssetURL } from "@/utils/get_assets.js"
 import tabbarData from '@/assets/data/tabbar'
 
+import { useRoute } from 'vue-router';
+
+
+const route = useRoute()
 const currentIndex = ref(0)
+watch(route, (newRoute) => {
+  const index = tabbarData.findIndex(item => item.path === newRoute.path)
+  if (index === -1) return
+  currentIndex.value = index
+})
 
 
 </script>

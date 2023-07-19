@@ -12,7 +12,7 @@
       <div class="start">
         <div class="date">
           <span class="tip">入驻</span>
-          <span class="time">{{ startDate }}</span>
+          <span class="time">{{ startDateStr }}</span>
         </div>
       </div>
       <div class="stay">
@@ -21,7 +21,7 @@
       <div class="end">
         <div class="date">
           <span class="tip">入驻</span>
-          <span class="time">{{ endDate }}</span>
+          <span class="time">{{ endDateStr }}</span>
         </div>
       </div>
     </div>
@@ -57,9 +57,10 @@
 import useCityStore from '@/store/modules/city';
 import { formatMonthDay, getDiffDay } from '@/utils/format_day';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import useHomeStore from '@/store/modules/home'
+import useMainStore from '@/store/modules/main'
 
 const positionClick = () => {
   navigator.geolocation.getCurrentPosition((res) => {
@@ -78,19 +79,20 @@ const cityClick = () => {
 const cityStore = useCityStore()
 const { currentCity } = storeToRefs(cityStore)
 
-const nowDate = new Date()
-const startDate = ref(formatMonthDay(nowDate))
-const newDate = new Date().setDate(nowDate.getDate() + 1)
-const endDate = ref(formatMonthDay(newDate))
-const stayDay = ref(getDiffDay(nowDate, newDate))
+const mainStore = useMainStore()
+const { startDate, endDate } = storeToRefs(mainStore)
+
+const startDateStr = computed(() => formatMonthDay(startDate.value))
+const endDateStr = computed(() => formatMonthDay(endDate.value))
+const stayDay = ref(getDiffDay(startDate.value, endDate.value))
 
 const showCalander = ref(false)
 
 const onConfirm = (value) => {
   const selectStart = value[0]
   const seleEnd = value[1]
-  startDate.value = formatMonthDay(selectStart)
-  endDate.value = formatMonthDay(seleEnd)
+  mainStore.startDate = selectStart
+  mainStore.endDate = seleEnd
   showCalander.value = false
   stayDay.value = getDiffDay(selectStart, seleEnd)
 }

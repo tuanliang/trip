@@ -8,6 +8,10 @@
     <home-search-box></home-search-box>
 
     <home-categories></home-categories>
+
+    <div v-if="isSearchBar" class="search-bar">
+      <search-bar />
+    </div>
     <home-content></home-content>
     <button @click="moreHouse">加载更多</button>
   </div>
@@ -20,8 +24,9 @@ import HomeSearchBox from './cpns/home-search-box.vue'
 import homeCategories from './cpns/home-categories.vue';
 import HomeContent from './cpns/home-content.vue'
 import useScroll from '@/hooks/usescroll';
-import { watch } from 'vue';
-import { storeToRefs } from 'pinia';
+import SearchBar from '@/components/search-bar/search-bar.vue'
+import { watch, computed } from 'vue';
+
 
 const homeStore = useHomeStore()
 homeStore.fetchHomeSuggest()
@@ -34,7 +39,7 @@ const moreHouse = () => {
 }
 
 
-const { isBottom } = useScroll()
+const { isBottom, scrollTop } = useScroll()
 
 watch(isBottom, (newValue) => {
   if (newValue) {
@@ -43,6 +48,11 @@ watch(isBottom, (newValue) => {
     })
   }
 })
+
+const isSearchBar = computed(() => {
+  return scrollTop.value >= 100
+})
+
 
 </script>
 
@@ -59,6 +69,18 @@ watch(isBottom, (newValue) => {
     }
   }
 
+  .search-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    line-height: 45px;
+    background-color: #fff;
+    padding: 16px 16px 10px;
+    box-sizing: border-box;
+    z-index: 9;
+  }
 
 }
 </style>

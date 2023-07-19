@@ -1,19 +1,22 @@
 import { onMounted, onUnmounted, ref } from "vue"
+import { throttle } from "underscore"
 
 export default function useScroll () {
   const isBottom = ref(false)
-  const scrollListenerHandler = () => {
 
-
-    const scrollTop = document.documentElement.scrollTop
-    const clientHeight = document.documentElement.clientHeight
-    const scrollHeight = document.documentElement.scrollHeight
-
-    if (scrollTop + clientHeight + 1 >= scrollHeight) {
+  const clientHeight = ref(0)
+  const scrollTop = ref(0)
+  const scrollHeight = ref(0)
+  const scrollListenerHandler = throttle(() => {
+    scrollTop.value = document.documentElement.scrollTop
+    clientHeight.value = document.documentElement.clientHeight
+    scrollHeight.value = document.documentElement.scrollHeight
+    console.log("滚动")
+    if (scrollTop.value + clientHeight.value + 1 >= scrollHeight.value) {
       console.log("滚动到底部")
       isBottom.value = true
     }
-  }
+  }, 200)
 
   onMounted(() => {
     window.addEventListener("scroll", scrollListenerHandler)
@@ -22,5 +25,5 @@ export default function useScroll () {
     window.removeEventListener("scroll", scrollListenerHandler)
   })
 
-  return { isBottom }
+  return { isBottom, clientHeight, scrollTop, scrollHeight }
 }

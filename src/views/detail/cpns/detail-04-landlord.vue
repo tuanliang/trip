@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="bottom">
-        <template v-for="(item, index) in landlordData.hotelSummary" :key="idnex">
+        <template v-for="(item, index) in landlordData.hotelSummary" :key="index">
           <div class="item">
             <div class="rate">{{ item.title }}</div>
             <div class="count">{{ item.introduction }}</div>
@@ -136,4 +136,5 @@ defineProps({
       }
     }
   }
-}</style>
+}
+</style>

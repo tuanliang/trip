@@ -9,7 +9,7 @@
               <span class="text">{{ item.groupName }}</span>
             </div>
             <div class="list">
-              <template v-for="(iten, indxy) in item.facilitys.slice(0, 4)" :key="indey">
+              <template v-for="(iten, indxy) in item.facilitys.slice(0, 4)" :key="indxy">
                 <div class="iten">
                   <i class="icon_check"></i>
                   <span class="text">{{ iten.name }}</span>

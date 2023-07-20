@@ -32,14 +32,14 @@
       </div>
       <div class="bottom">
         <div class="brief">
-          <img :src="commentData.comment.userAvatars" alt="">
+          <img :src="commentData?.comment?.userAvatars" alt="">
           <div class="info">
-            <div class="name">{{ commentData.comment.userName }}</div>
-            <div class="time">{{ commentData.comment.checkInDate }}</div>
+            <div class="name">{{ commentData?.comment?.userName }}</div>
+            <div class="time">{{ commentData?.comment?.checkInDate }}</div>
           </div>
         </div>
         <div class="comment">
-          {{ commentData.comment.commentDetail }}
+          {{ commentData?.comment?.commentDetail }}
         </div>
       </div>
     </detail-section>
@@ -63,6 +63,7 @@ defineProps({
     display: flex;
     justify-content: space-between;
     padding: 4px;
+    align-items: center;
 
     .left {
       display: flex;

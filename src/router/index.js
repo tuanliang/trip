@@ -16,7 +16,7 @@ const router = createRouter({
     },
     {
       path: "/order",
-      component: () => import("@/views/order/order.vue")
+      component: () => import("@/views/order/parent.vue")
     },
     {
       path: "/message",

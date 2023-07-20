@@ -17,6 +17,7 @@ defineProps({
     default: () => []
   }
 })
+
 const currentIndex = ref(0)
 const emit = defineEmits(["baritemClick"])
 const itemClick = (index) => {
@@ -25,6 +26,9 @@ const itemClick = (index) => {
 }
 
 
+defineExpose({
+  currentIndex
+})
 </script>
 
 <style lang="less" scoped>

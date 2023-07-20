@@ -1,6 +1,7 @@
 <template>
   <div class="detail top-page" ref="navBarRef">
-    <nav-bar :title="['描述', '设施', '房东', '评论', '地图']" class="nav-bar" v-if="showTabbar" @baritemClick="barclick"></nav-bar>
+    <nav-bar :title="['描述', '设施', '房东', '评论', '地图']" class="nav-bar" v-show="showTabbar" @baritemClick="barclick"
+      ref="tabControlRef"></nav-bar>
 
 
     <van-nav-bar title="房屋详情" left-text="返回" left-arrow @click-left="onClickLeft" />
@@ -17,7 +18,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
 import { getDetailInfos } from '@/services/index'
 import detailSwipe from './cpns/detail-01-swipe.vue';
@@ -49,18 +50,51 @@ const showTabbar = computed(() => {
 })
 
 const sectionArr = []
+sectionArr.slice(0, 4)
 const getSectionRef = (value) => {
-  console.log(value.$el)
+  if (!value) return
   sectionArr.push(value.$el)
 }
+
+let isClick = false
+let currentDistance = -1
 const barclick = (index) => {
   let distance = sectionArr[index].offsetTop
   if (index !== 0) distance -= 44
-  navBarRef.value.scrollTo({
+
+  isClick = true
+  currentDistance = distance
+
+  navBarRef?.value?.scrollTo({
     top: distance,
     behavior: "smooth"
   })
 }
+
+const tabControlRef = ref()
+watch(scrollTop, (newValue) => {
+  if (Math.abs(newValue - currentDistance) < 2) {
+    isClick = false
+  }
+  if (isClick) return
+
+  const values = []
+  for (const item in sectionArr) {
+    values.push(sectionArr[item].offsetTop)
+  }
+  // 根据newValue匹配想要的索引
+  let index = values.length - 1
+  for (let i = 0; i < values.length; i++) {
+    if (values[i] > newValue + 44) {
+      index = i - 1
+      break
+    }
+  }
+
+  tabControlRef.value.currentIndex = index
+})
+
+
 </script>
 
 <style lang="less" scoped>

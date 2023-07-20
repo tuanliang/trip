@@ -1,6 +1,10 @@
 <template>
   <div class="app">
-    <router-view></router-view>
+    <router-view v-slot="props">
+      <keep-alive includes="home">
+        <component :is="props.Component"></component>
+      </keep-alive>
+    </router-view>
     <tab-bar></tab-bar>
     <loading></loading>
   </div>
